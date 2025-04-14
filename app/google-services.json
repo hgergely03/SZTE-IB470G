@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "31868716766",
+    "project_id": "szte-mobilalk-94943",
+    "storage_bucket": "szte-mobilalk-94943.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:31868716766:android:b0c3726db0d0263888e44f",
+        "android_client_info": {
+          "package_name": "com.book.bookcorner"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "31868716766-nm0g2748ten50eobd0o5m2s13ktpblo1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.book.bookcorner",
+            "certificate_hash": "e917db937c705a4e52261b0b7f0318cce69c50ee"
+          }
+        },
+        {
+          "client_id": "31868716766-jhiork4le2jd263b4uq626tsvpmu3a19.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCa_ex-x614NfaAg_XyN-I8MmbLCF8pJrA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "31868716766-jhiork4le2jd263b4uq626tsvpmu3a19.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
