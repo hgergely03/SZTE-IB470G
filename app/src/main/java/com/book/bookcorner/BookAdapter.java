@@ -109,7 +109,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookHolder>  i
             author.setText(currentBook.getAuthor());
             addToCartButton.setText("Vásárlás " + currentBook.getPrice() + " Ft áron");
 
-            // Glide.with(context).load(currentBook.getImgUrl()).into(cover);
+            Glide.with(context).load(currentBook.getImgUrl()).into(cover);
         }
     }
 }
