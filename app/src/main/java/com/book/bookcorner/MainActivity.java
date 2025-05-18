@@ -58,7 +58,6 @@ public class MainActivity extends AppCompatActivity {
         firestore = FirebaseFirestore.getInstance();
         booksCollection = firestore.collection("books");
         initializeData();
-        Log.d("MAIN_ACTIVITY", Integer.toString(bookAdapter.getItemCount()));
     }
 
     private void initializeData() {
@@ -67,7 +66,6 @@ public class MainActivity extends AppCompatActivity {
         // query with index
         booksCollection.orderBy("title").orderBy("price").limit(25).get().addOnCompleteListener(snapshot -> {
             if (snapshot.isSuccessful()) {
-                Log.d(LOG_TAG, "Query successful");
                 var result = snapshot.getResult();
                 for (QueryDocumentSnapshot document : result) {
                     Book book = document.toObject(Book.class);
@@ -95,8 +93,8 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int itemId = item.getItemId();
 
-        if (itemId == R.id.menuItemCart) {
-            Intent intent = new Intent(this, CartActivity.class);
+        if (itemId == R.id.menuItemOrders) {
+            Intent intent = new Intent(this, OrdersActivity.class);
             this.startActivity(intent);
 
             return true;

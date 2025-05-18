@@ -1,5 +1,7 @@
 package com.book.bookcorner;
 
+import com.google.firebase.firestore.Exclude;
+
 import java.util.Date;
 
 public class Order {
@@ -8,13 +10,20 @@ public class Order {
     private String buyerEmail;
     private Date orderDate;
 
-    public Order(String orderId, String bookId, String buyerEmail, Date orderDate) {
-        this.orderId = orderId;
+    public Order() {
+    }
+
+    public Order(String bookId, String buyerEmail, Date orderDate) {
         this.bookId = bookId;
         this.buyerEmail = buyerEmail;
         this.orderDate = orderDate;
     }
 
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
+    }
+
+    @Exclude
     public String getOrderId() {
         return orderId;
     }
