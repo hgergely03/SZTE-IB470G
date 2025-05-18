@@ -16,13 +16,17 @@ import androidx.core.view.WindowInsetsCompat;
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class DetailsActivity extends AppCompatActivity {
     Button buyBookButton;
+    Button doNotShowAgainButton;
     TextView bookTitle;
     TextView bookAuthor;
     TextView bookDescription;
     ImageView bookCover;
+    CollectionReference booksCollection;
 
     private FirebaseUser user;
 
@@ -56,6 +60,18 @@ public class DetailsActivity extends AppCompatActivity {
             orderIntent.putExtra("bookId", intent.getStringExtra("bookId"));
 
             startActivity(orderIntent);
+        });
+
+        doNotShowAgainButton = findViewById(R.id.doNotShowButton);
+
+        doNotShowAgainButton.setOnClickListener(v -> {
+            booksCollection = FirebaseFirestore.getInstance().collection("books");
+            booksCollection.document(intent.getStringExtra("bookId")).delete();
+            Toast.makeText(DetailsActivity.this, "A könyv eltávolítva a listádból!", Toast.LENGTH_SHORT).show();
+            Intent mainIntent = new Intent(DetailsActivity.this, MainActivity.class);
+            mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(mainIntent);
+            finish();
         });
 
         bookTitle = findViewById(R.id.bookDetailsTitle);

@@ -100,9 +100,26 @@ public class OrdersActivity extends AppCompatActivity {
                 Order order = new Order(bookId, userEmail, new Date());
                 ordersCollection.add(order)
                     .addOnSuccessListener(documentReference -> {
-                        Toast.makeText(this, "A rendelés sikeresen leadva!", Toast.LENGTH_SHORT).show();
-                        currentOrderCard.setVisibility(GONE);
-                        initializeData();
+                        Book book = null;
+
+                        for (Book b : books) {
+                            if (b.getId().equals(bookId)) {
+                                book = b;
+                                break;
+                            }
+                        }
+
+                        if (book != null) {
+                            booksCollection.document(bookId).update("boughtNumber", book.getBoughtNumber() + 1)
+                                .addOnSuccessListener(aVoid -> {
+                                    Toast.makeText(this, "A rendelés sikeresen leadva!", Toast.LENGTH_SHORT).show();
+                                    currentOrderCard.setVisibility(GONE);
+                                    initializeData();
+                                })
+                                .addOnFailureListener(e -> {
+                                    Toast.makeText(this, "Hiba történt a rendelés létrehozásakor: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                                });
+                        }
                     })
                     .addOnFailureListener(e -> {
                         Toast.makeText(this, "Hiba történt a rendelés létrehozásakor: " + e.getMessage(), Toast.LENGTH_LONG).show();
