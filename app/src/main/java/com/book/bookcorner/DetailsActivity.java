@@ -2,8 +2,11 @@ package com.book.bookcorner;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,6 +43,10 @@ public class DetailsActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        LinearLayout layout = findViewById(R.id.detailsLayout);
+        Animation animation = AnimationUtils.loadAnimation(this, R.anim.slide_up);
+        layout.startAnimation(animation);
 
         user = FirebaseAuth.getInstance().getCurrentUser();
         Intent intent = getIntent();

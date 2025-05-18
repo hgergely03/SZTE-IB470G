@@ -40,6 +40,14 @@ public class OrdersActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private ArrayList<Order> orders;
     private ArrayList<Book> books;
+    private NotificationHandler notificationHandler;
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d("ORDERS_ACTIVITY", "onPause");
+        notificationHandler.sendNotification("Ne felejts el visszatérni és vásárolni!");
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,6 +122,10 @@ public class OrdersActivity extends AppCompatActivity {
                                 .addOnSuccessListener(aVoid -> {
                                     Toast.makeText(this, "A rendelés sikeresen leadva!", Toast.LENGTH_SHORT).show();
                                     currentOrderCard.setVisibility(GONE);
+
+                                    notificationHandler = new NotificationHandler(this);
+                                    notificationHandler.sendNotification("Sikeres vásárlás!");
+
                                     initializeData();
                                 })
                                 .addOnFailureListener(e -> {
