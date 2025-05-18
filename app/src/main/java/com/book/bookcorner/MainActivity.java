@@ -14,13 +14,25 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-
     private static final String LOG_TAG = "MAIN_ACTIVITY";
+    private FirebaseFirestore firestore;
+    private CollectionReference booksCollection;
+    private RecyclerView recyclerView;
+    private ArrayList<Book> books;
+    private BookAdapter bookAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +47,40 @@ public class MainActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        books = new ArrayList<>();
+        bookAdapter = new BookAdapter(this, books);
+
+        recyclerView = findViewById(R.id.mainBooksList);
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 1));
+        recyclerView.setAdapter(bookAdapter);
+
+        firestore = FirebaseFirestore.getInstance();
+        booksCollection = firestore.collection("books");
+        initializeData();
+        Log.d("MAIN_ACTIVITY", Integer.toString(bookAdapter.getItemCount()));
+    }
+
+    private void initializeData() {
+        books.clear();
+
+        // query with index
+        booksCollection.orderBy("title").orderBy("price").limit(25).get().addOnCompleteListener(snapshot -> {
+            if (snapshot.isSuccessful()) {
+                Log.d(LOG_TAG, "Query successful");
+                var result = snapshot.getResult();
+                for (QueryDocumentSnapshot document : result) {
+                    Book book = document.toObject(Book.class);
+                    book.setId(document.getId());
+                    books.add(book);
+                }
+
+                bookAdapter.notifyDataSetChanged();
+            } else {
+                Toast.makeText(this, "Hiba történt a könyvek betöltésekor", Toast.LENGTH_LONG).show();
+                snapshot.getException().printStackTrace();
+            }
+        });
     }
 
     @Override
